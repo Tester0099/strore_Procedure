@@ -1,0 +1,53 @@
+﻿@model List<Stored_procedure.Models.User_data>
+    @{
+        ViewBag.Title = "Userdashboard";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <form action="/Home/Logout">
+        <button class="btn btn-primary">Logout</button>
+    </form><br />
+
+    <p id="remove" class="text-success">@TempData["msg"]</p>
+    <br />
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Number</th>
+            <th>Delete</th>
+            <th>Edit</th>
+        </tr>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.Id</td>
+                <td>@x.name</td>
+                <td><i class="fa-solid fa-envelope"></i> @x.email</td>
+                <td><i class="fa-solid fa-unlock"></i> @x.password</td>
+                <td><i class="fa-solid fa-phone"></i> +91 @x.number</td>
+                <td>
+                    <form action="/Home/delete">
+                        <input type="hidden" name="Id"  value="@x.Id"/>
+                        <button class="btn btn-danger" onclick="return confirm('You want to delete ?')"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </form>
+                </td>
+                <td>
+                    <a class="btn btn-primary"   href="@Url.Action("edit", "Home",new {id=x.Id })"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                </td>
+            </tr>
+        }
+    </table>
+<span>@TempData["message"]</span>
+<span>@ViewBag.Exception</span>
+    <script>
+        const remove = document.getElementById("remove");
+
+        addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                remove.style.visibility = "hidden";
+            }, 2000)
+        })
+    </script>

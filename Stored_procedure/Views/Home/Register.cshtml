@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .input_lable_container{
+        height:80px;
+    }
+</style>
+
+<div class="container-fluid ">
+    <div class="row py-5 px-5">
+        <form method="post" action="/Home/Register"  onsubmit="return validateform()">
+            <h4 class="fw-bold">Register form...</h4>
+            <div class="mb-3 input_lable_container">
+                <label class="form-label w-100 fw-bold">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+                <span id="name_error" class="text-danger"></span>
+            </div>
+            <div class="mb-3 input_lable_container">
+                <label class="form-label fw-bold">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                <span id="email_error" class="text-danger"></span>
+
+            </div>
+            <div class="mb-3 input_lable_container">
+                <label class="form-label fw-bold">Password</label>
+                <input type="Password" class="form-control" id="pass" name="password" placeholder="Enter password">
+                <span id="password_error" class="text-danger"></span>
+
+            </div>
+             
+            <div class="mb-3 input_lable_container">
+                <label class="form-label fw-bold">Number</label>
+                <input type="number" class="form-control" id="number" name="number" placeholder="enter number" />
+                <span id="num_error" class="text-danger"></span>
+
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="btn btn-primary" value="Submit" />
+            </div>
+        </form>
+        <span class="text-danger">@ViewBag.Exception</span>
+        <span class="text-success" id="remove">@TempData["msg"]</span>
+    </div>
+</div>
+<script>
+    const remove = document.getElementById("remove");
+
+    addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            remove.style.display = "none";
+        },2000)
+    })
+
+   function validateform() {
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const password = document.getElementById("pass");
+    const number = document.getElementById("number");
+
+    const name_error = document.getElementById("name_error");
+    const email_error = document.getElementById("email_error");
+    const password_error = document.getElementById("password_error");
+    const num_error = document.getElementById("num_error");
+
+    // Reset error messages
+    name_error.textContent = "";
+    email_error.textContent = "";
+    password_error.textContent = "";
+    num_error.textContent = "";
+
+    let isValid = true;
+
+    // Regular expression for a valid email
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (name.value.trim() === "") {
+        name_error.textContent = "Please enter your name";
+        isValid = false;
+    }
+
+    if (email.value.trim() === "") {
+        email_error.textContent = "Please enter a valid email";
+        isValid = false;
+    } else if (!emailPattern.test(email.value.trim())) {
+        email_error.textContent = "Invalid email format";
+        isValid = false;
+    }
+
+    if (password.value.trim() === "" || password.value.length < 6) {
+        password_error.textContent = "Password must be at least 6 characters long.";
+        isValid = false;
+    }
+
+    if (number.value.trim() === "" || number.value.length !== 10 || isNaN(number.value)) {
+        num_error.textContent = "Please enter a valid 10-digit number";
+        isValid = false;
+    }
+
+    if (isValid) {
+        alert('Form has been submitted');
+    }
+
+    return isValid;
+}
+
+
+
+</script>
+
+
